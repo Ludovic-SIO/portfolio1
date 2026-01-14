@@ -281,8 +281,46 @@ h6 {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-top: 120px;
     background-color: var(--background-color);
+}
+
+.scroll-hint {
+    position: absolute;
+    top: 14%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.scroll-hint-text {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+}
+
+.scroll-hint-icon {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    animation: scroll-hint-pulse 2s ease-in-out infinite;
+}
+
+@keyframes scroll-hint-pulse {
+    0%, 100% {
+        transform: translateX(0);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateX(8px);
+        opacity: 1;
+    }
 }
 
 .projects-minimal-header {

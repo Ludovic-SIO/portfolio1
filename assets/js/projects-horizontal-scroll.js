@@ -70,6 +70,68 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialiser
     handleScroll();
 
+    // #region agent log
+    // Debug: Mesurer les positions du scroll-hint et des project-item
+    const debugPositions = () => {
+        const scrollHint = document.querySelector('.scroll-hint');
+        const firstProject = document.querySelector('.project-item');
+        const stickyContainer = document.querySelector('.projects-sticky-container');
+        
+        if (scrollHint && firstProject && stickyContainer) {
+            const hintRect = scrollHint.getBoundingClientRect();
+            const projectRect = firstProject.getBoundingClientRect();
+            const containerRect = stickyContainer.getBoundingClientRect();
+            const projectNumber = firstProject.querySelector('.project-number');
+            const numberRect = projectNumber ? projectNumber.getBoundingClientRect() : null;
+            
+            const computedHint = window.getComputedStyle(scrollHint);
+            const computedProject = window.getComputedStyle(firstProject);
+            
+            fetch('http://127.0.0.1:7248/ingest/b48ec1ae-3675-442f-a25f-5796272ccf44', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    location: 'projects-horizontal-scroll.js:debugPositions',
+                    message: 'Position measurements',
+                    data: {
+                        scrollHint: {
+                            top: hintRect.top,
+                            bottom: hintRect.bottom,
+                            height: hintRect.height,
+                            zIndex: computedHint.zIndex,
+                            position: computedHint.position
+                        },
+                        projectItem: {
+                            top: projectRect.top,
+                            bottom: projectRect.bottom,
+                            height: projectRect.height,
+                            zIndex: computedProject.zIndex,
+                            position: computedProject.position
+                        },
+                        projectNumber: numberRect ? {
+                            top: numberRect.top,
+                            bottom: numberRect.bottom
+                        } : null,
+                        container: {
+                            top: containerRect.top,
+                            height: containerRect.height
+                        },
+                        viewportHeight: window.innerHeight
+                    },
+                    timestamp: Date.now(),
+                    sessionId: 'debug-session',
+                    runId: 'run1',
+                    hypothesisId: 'A'
+                })
+            }).catch(() => {});
+        }
+    };
+    
+    // Mesurer après le chargement initial
+    setTimeout(debugPositions, 100);
+    window.addEventListener('resize', debugPositions);
+    // #endregion
+
     // Cursor Follower Logic
     const cursor = document.querySelector('.project-cursor');
     const imageWrappers = document.querySelectorAll('.project-image-wrapper');

@@ -293,6 +293,11 @@ h6 {
     margin: 0 auto;
 }
 
+/* Grille vidéo réduite pour certaines pages */
+.video-grid-small {
+    max-width: 800px;
+}
+
 .video-item {
     position: relative;
     width: 100%;

@@ -160,8 +160,6 @@ class ScrollReveal {
 
     setInitialState(element, direction) {
         const style = element.style;
-        style.opacity = '0';
-        
         // Liste des animations qui utilisent des animations CSS @keyframes
         const cssKeyframeAnimations = ['blur', 'scale', 'rotate', 'scale-rotate', 'bounce', 'elastic'];
         
